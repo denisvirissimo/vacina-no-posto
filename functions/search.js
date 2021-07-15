@@ -8,11 +8,11 @@ exports.handler = function(event, context, callback) {
         body: JSON.stringify({ message: 'Hello teste' })
     });*/
 
-    // const API_URL = 'https://imunizacao-es.saude.gov.br/_search';
-    // const API_USER = 'imunizacao_public';
-    // const API_PASSWORD = 'qlto5t&7r_@+#Tlstigi';
+    const API_URL = 'https://imunizacao-es.saude.gov.br/_search';
+    const API_USER = 'imunizacao_public';
+    const API_PASSWORD = 'qlto5t&7r_@+#Tlstigi';
 
-    const { API_URL, API_USER, API_PASSWORD} = process.env;
+    // const { API_URL, API_USER, API_PASSWORD} = process.env;
 
     // Send
     const send = body => {
@@ -29,7 +29,23 @@ exports.handler = function(event, context, callback) {
     // Call API
     const search = () => {
         axios.post(API_URL, {
-            size: 1
+            size: 1,
+            query: {
+                bool: {
+                    must: [
+                        {
+                            term: {
+                                estabelecimento_valor: '2788330'
+                            }
+                        },
+                        {
+                            term: {
+                                vacina_dataAplicacao: '2021-07-15T00:00:00.000Z'
+                            }
+                        }
+                    ]
+                }
+            }
         }, {
             auth: {
                 username: API_USER,
