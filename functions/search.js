@@ -44,8 +44,14 @@ exports.handler = function(event, context, callback) {
                         }
                     ]
                 }
-            }
-        }, {
+            },
+            fields : [
+                "@timestamp",
+                "vacina_fabricante_nome" 
+            ],
+            _source: false,
+        },
+        {
             auth: {
                 username: API_USER,
                 password: API_PASSWORD
