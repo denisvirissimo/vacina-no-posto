@@ -10,6 +10,8 @@ exports.handler = function(event, context, callback) {
     });*/
 
     const { API_URL, API_USER, API_PASSWORD} = process.env;
+    // var diaAtual = new Date().setUTCHours(0,0,0,0);
+    var diaAtual = new Date(2021,6,15).setUTCHours(0,0,0,0);
 
     // Send
     const send = body => {
@@ -37,7 +39,7 @@ exports.handler = function(event, context, callback) {
                         },
                         {
                             term: {
-                                vacina_dataAplicacao: '2021-07-15T00:00:00.000Z'
+                                vacina_dataAplicacao: new Date(diaAtual).toISOString()
                             }
                         }
                     ]
