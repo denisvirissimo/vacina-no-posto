@@ -2,12 +2,6 @@ const axios = require('axios');
 require('dotenv').config();
 
 exports.handler = function(event, context, callback) {
-    /*const { name } = JSON.parse(event.body);
-    
-    callback(null, {
-        statusCode: 200,
-        body: JSON.stringify({ message: 'Hello teste' })
-    });*/
 
     const { API_URL, API_USER, API_PASSWORD} = process.env;
     // var diaAtual = new Date().setUTCHours(0,0,0,0);
@@ -19,7 +13,8 @@ exports.handler = function(event, context, callback) {
             statusCode: 200,
             headers: {
                 'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
+                'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
+                'Access-Control-Allow-Methods': 'GET, POST'
             },
             body: JSON.stringify(body)
         });
@@ -27,6 +22,8 @@ exports.handler = function(event, context, callback) {
 
     // Call API
     const search = () => {
+        const { codigoUBS } = JSON.parse(event.body);
+
         axios.post(API_URL, {
             size: 1,
             query: {
@@ -34,7 +31,7 @@ exports.handler = function(event, context, callback) {
                     must: [
                         {
                             term: {
-                                estabelecimento_valor: '2788330'
+                                estabelecimento_valor: codigoUBS
                             }
                         },
                         {
@@ -55,7 +52,17 @@ exports.handler = function(event, context, callback) {
         .catch(err => send(err));
     }
 
-    if (event.httpMethod == 'GET'){
+    if (event.httpMethod == 'POST'){
         search();
+    } else {
+        callback(null, {
+            statusCode: 200,
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
+                'Access-Control-Allow-Methods': 'GET, POST'
+            },
+            body: JSON.stringify('Method not allowed')
+        });
     }
 }
