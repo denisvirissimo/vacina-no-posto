@@ -4,8 +4,8 @@ require('dotenv').config();
 exports.handler = function(event, context, callback) {
 
     const { API_URL, API_USER, API_PASSWORD} = process.env;
-    // var diaAtual = new Date().setUTCHours(0,0,0,0);
-    var diaAtual = new Date(2021,6,15).setUTCHours(0,0,0,0);
+    var diaAtual = new Date().setUTCHours(0,0,0,0);
+    // var diaAtual = new Date(2021,6,15).setUTCHours(0,0,0,0);
 
     // Send
     const send = body => {
@@ -25,7 +25,10 @@ exports.handler = function(event, context, callback) {
         const { codigoUBS } = JSON.parse(event.body);
 
         axios.post(API_URL, {
-            size: 1,
+            size: 10,
+            sort : [
+                { "@timestamp" : "desc" }
+            ],
             query: {
                 bool: {
                     must: [
