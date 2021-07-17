@@ -20,18 +20,6 @@ const fetchData = async () => {
   return response.json();
 }
 
-fetch('/data/unidade.json')
-  .then(response => response.json())
-  .then(data => {
-    // console.log(data)
-
-    const teste = data.unidades.filter(function (a) {
-      return a.CodigoMunicipio === 355030;
-    });
-
-    // console.log(teste);
-  });
-
 const initJson = async () => {
   let [] = await Promise.all([
     fetch('/data/unidade.json')
@@ -69,6 +57,7 @@ const initJson = async () => {
 
 const agruparVacinas = (data) => {
   var vacinasAplicadas = data.hits.hits.reduce(function (r, row) {
+    row.fields.vacina_fabricante_nome[0] = row.fields.vacina_fabricante_nome[0].split('/')[0];
     r[row.fields.vacina_fabricante_nome] = ++r[row.fields.vacina_fabricante_nome] || 1;
     return r;
   }, {});
@@ -100,7 +89,7 @@ const exibirAplicacoes = (listVacinas) => {
     const divCardBody = document.createElement('div');
     divCardBody.className = 'card-body';
     const divCardBodyImg = document.createElement('img');
-    divCardBodyImg.src = 'img/'.concat(vacina.key.replace('/', '').toLowerCase().concat('.png'));
+    divCardBodyImg.src = 'img/'.concat(vacina.key.split('/')[0].toLowerCase().concat('.png'));
     divCardBodyImg.width = '80';
     divCardBody.appendChild(divCardBodyImg);
     divCard.appendChild(divCardBody);
