@@ -44,11 +44,28 @@ const initJson = async () => {
 
     fetch('/data/uf.json')
       .then(response => response.json())
-      .then(data => listUF = data),
+      .then(data => {
+        listUF = data
+
+        let dropdown = document.getElementById('estado');
+        dropdown.length = 0;
+
+        let defaultOption = document.createElement('option');
+        defaultOption.text = 'Escolha um estado...';
+
+        dropdown.add(defaultOption);
+        dropdown.selectedIndex = 0;
+        let option;
+
+        for (let i = 0; i < listUF.ufs.length; i++) {
+          option = document.createElement('option');
+          option.text = listUF.ufs[i].Nome;
+          option.value = listUF.ufs[i].Codigo;
+          dropdown.add(option);
+        }
+      }),
   ]);
 }
-
-initJson();
 
 const agruparVacinas = (data) => {
   var vacinasAplicadas = data.hits.hits.reduce(function (r, row) {
@@ -109,9 +126,72 @@ document.addEventListener('click', function (event) {
 
       var vacinasAgrupadas = agruparVacinas(data);
       exibirAplicacoes(vacinasAgrupadas);
-      
+
       document.querySelector('#vacinas').scrollIntoView();
     })
     .catch(err => console.log(err));
 
 }, false);
+
+document.querySelector('#estado').addEventListener('change', (event) => {
+
+  let dropdown = document.getElementById('unidade');
+  dropdown.length = 0;
+
+  let defaultOption = document.createElement('option');
+  defaultOption.text = 'Escolha uma unidade...';
+  defaultOption.value = 0;
+
+  dropdown.add(defaultOption);
+  dropdown.selectedIndex = 0;
+  
+  dropdown = document.getElementById('municipio');
+  dropdown.length = 0;
+
+  defaultOption = document.createElement('option');
+  defaultOption.text = 'Escolha um município...';
+  defaultOption.value = 0;
+
+  dropdown.add(defaultOption);
+  dropdown.selectedIndex = 0;
+
+  let option;
+
+  const municipiosFiltrados = listMunicipio.municipios.filter(function (a) {
+    return a.CodigoUF === Number(event.target.value);
+  });
+
+  for (let i = 0; i < municipiosFiltrados.length; i++) {
+    option = document.createElement('option');
+    option.text = municipiosFiltrados[i].Nome;
+    option.value = municipiosFiltrados[i].Codigo;
+    dropdown.add(option);
+  }
+});
+
+document.querySelector('#municipio').addEventListener('change', (event) => {
+
+  let dropdown = document.getElementById('unidade');
+  dropdown.length = 0;
+
+  let defaultOption = document.createElement('option');
+  defaultOption.text = 'Escolha uma unidade...';
+  defaultOption.value = 0;
+
+  dropdown.add(defaultOption);
+  dropdown.selectedIndex = 0;
+  let option;
+
+  const unidadesFiltradas = listUnidade.unidades.filter(function (a) {
+    return a.CodigoMunicipio === Number(event.target.value);
+  });
+
+  for (let i = 0; i < unidadesFiltradas.length; i++) {
+    option = document.createElement('option');
+    option.text = unidadesFiltradas[i].Nome;
+    option.value = unidadesFiltradas[i].CodigoCNES;
+    dropdown.add(option);
+  }
+});
+
+initJson();
