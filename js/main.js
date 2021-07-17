@@ -109,7 +109,8 @@ document.addEventListener('click', function (event) {
 
       var vacinasAgrupadas = agruparVacinas(data);
       exibirAplicacoes(vacinasAgrupadas);
-
+      
+      document.querySelector('#vacinas').scrollIntoView();
     })
     .catch(err => console.log(err));
 
