@@ -141,8 +141,17 @@ document.addEventListener('click', function (event) {
   fetchData()
     .then(data => {
 
-      var vacinasAgrupadas = agruparVacinas(data);
-      exibirAplicacoes(vacinasAgrupadas);
+      if (data.hits.total.value == 0) {
+        document.getElementById('noResult').classList.remove('d-none');
+        var vacinaList = document.querySelector('#vacinas');
+        vacinaList.querySelectorAll('*').forEach(n => n.remove());
+      }
+      else {
+        document.getElementById('noResult').classList.add('d-none');
+
+        var vacinasAgrupadas = agruparVacinas(data);
+        exibirAplicacoes(vacinasAgrupadas);
+      }
 
       document.querySelector('#vacinas').scrollIntoView();
     })
