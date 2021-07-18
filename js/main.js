@@ -1,6 +1,9 @@
 var listUF = [];
 var listMunicipio = [];
 var listUnidade = [];
+var singleXhrRemove;
+var singleXhrRemove2;
+var singleXhrRemove3;
 
 const fetchData = async () => {
   var url = 'http://localhost:9000/search';
@@ -14,7 +17,7 @@ const fetchData = async () => {
     },
     redirect: 'follow',
     referrerPolicy: 'no-referrer',
-    body: JSON.stringify({ 'codigoUBS': document.querySelector('#unidade').value })
+    body: JSON.stringify({ 'codigoUBS': singleXhrRemove3.getValue(true) })
   });
 
   return response.json();
@@ -135,7 +138,6 @@ const limparDropDown = (dropdown, unidade) => {
 document.addEventListener('click', function (event) {
 
   if (!event.target.matches('.btn')) return;
-
   event.preventDefault();
 
   fetchData()
@@ -201,4 +203,102 @@ document.querySelector('#municipio').addEventListener('change', (event) => {
   dropdown.disabled = Number(event.target.value) === 0 ? true : false;
 });
 
-initJson();
+document.addEventListener('DOMContentLoaded', function () {
+  initJson();
+
+  singleXhrRemove = new Choices('#choices-single-remote-fetch', {
+    placeholder: true,
+    searchPlaceholderValue: "Pesquisar estado",
+    searchResultLimit: 2,
+    loadingText: 'Carregando...',
+    noResultsText: 'Nenhum estado encontrado',
+    noChoicesText: 'Nenhuma opção disponível',
+    itemSelectText: 'Selecionar',
+  });
+
+  singleXhrRemove2 = new Choices('#choices-single-remote-fetch2', {
+    placeholder: true,
+    searchPlaceholderValue: "Pesquisar município",
+    searchResultLimit: 3,
+    loadingText: 'Carregando...',
+    noResultsText: 'Nenhum município encontrado',
+    noChoicesText: 'Nenhuma opção disponível',
+    itemSelectText: 'Selecionar',
+  });
+
+  singleXhrRemove3 = new Choices('#choices-single-remote-fetch3', {
+    placeholder: true,
+    searchPlaceholderValue: "Pesquisar unidade",
+    searchResultLimit: 5,
+    loadingText: 'Carregando...',
+    noResultsText: 'Nenhuma unidade encontrado',
+    noChoicesText: 'Nenhuma opção disponível',
+    itemSelectText: 'Selecionar',
+  });
+
+  singleXhrRemove2.disable();
+  singleXhrRemove3.disable();
+
+  singleXhrRemove.setChoices(function () {
+    return fetch(
+      '/data/uf.json'
+    )
+      .then(function (res) {
+        return res.json();
+      })
+      .then(function (data) {
+        return data.ufs.map(function (uf) {
+          return { label: uf.Nome, value: uf.Codigo };
+        });
+      });
+  });
+
+  singleXhrRemove.passedElement.element.addEventListener('change', function (e) {
+
+    const municipiosFiltrados = listMunicipio.municipios.filter(function (a) {
+      return a.CodigoUF === Number(e.detail.value);
+    });
+
+    var newOptions = [];
+    newOptions.push(singleXhrRemove2.config.choices.find(choice => choice.placeholder));
+    singleXhrRemove2.setChoices(newOptions, 'value', 'label', true)
+      .setChoiceByValue('');
+
+    singleXhrRemove2.setChoices(function () {
+      return municipiosFiltrados.map(function (municipio) {
+        return { label: municipio.Nome, value: municipio.Codigo };
+      });
+    }, 'value', 'label', false);
+
+    singleXhrRemove2.enable();
+    singleXhrRemove2.showDropdown(false);
+
+    var newOptions = [];
+    newOptions.push(singleXhrRemove3.config.choices.find(choice => choice.placeholder));
+    singleXhrRemove3.setChoices(newOptions, 'value', 'label', true)
+      .setChoiceByValue('');
+
+    singleXhrRemove3.disable();
+  });
+
+  singleXhrRemove2.passedElement.element.addEventListener('change', function (e) {
+
+    const unidadesFiltradas = listUnidade.unidades.filter(function (a) {
+      return a.CodigoMunicipio === Number(e.target.value);
+    });
+
+    var newOptions = [];
+    newOptions.push(singleXhrRemove3.config.choices.find(choice => choice.placeholder));
+    singleXhrRemove3.setChoices(newOptions, 'value', 'label', true)
+      .setChoiceByValue('');
+
+    singleXhrRemove3.setChoices(function () {
+      return unidadesFiltradas.map(function (municipio) {
+        return { label: municipio.Nome, value: municipio.CodigoCNES };
+      });
+    }, 'value', 'label', false);
+
+    singleXhrRemove3.enable();
+    singleXhrRemove3.showDropdown(false);
+  });
+});

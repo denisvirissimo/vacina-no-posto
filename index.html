@@ -19,23 +19,7 @@
 
     <!-- Bootstrap core CSS -->
     <link href="assets/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <style>
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            user-select: none;
-        }
-
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
-        }
-    </style>
-
+    <link href="node_modules/choices.js/public/assets/styles/choices.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <!-- <link href="form-validation.css" rel="stylesheet"> -->
@@ -140,6 +124,38 @@
                 </div>
             </div>
 
+
+            <div class="row">
+                <div class="col-md-12 col-lg-12">
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <label for="choices-single-remote-fetch">Estado</label>
+                            <select class="form-control" name="choices-single-remote-fetch"
+                                id="choices-single-remote-fetch">
+                                <option value="" placeholder>Escolha um estado...</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="choices-single-remote-fetch">Município</label>
+                            <select class="form-control" name="choices-single-remote-fetch"
+                                id="choices-single-remote-fetch2">
+                                <option value="" placeholder>Escolha um município...</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-5">
+                            <label for="choices-single-remote-fetch">Unidade</label>
+                            <select class="form-control" name="choices-single-remote-fetch"
+                                id="choices-single-remote-fetch3">
+                                <option value="" placeholder>Escolha uma unidade...</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
         </main>
 
         <footer class="my-5 pt-5 text-muted text-center text-small">
@@ -154,8 +170,9 @@
 
 
     <script src="assets/dist/js/bootstrap.bundle.min.js"></script>
-
+    <script src="node_modules/choices.js/public/assets/scripts/choices.min.js"></script>
     <script src="js/main.js"></script>
+
 </body>
 
 
