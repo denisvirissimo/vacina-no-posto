@@ -70,9 +70,9 @@
                     <div class="row g-3">
 
                         <div class="col-md-3">
-                            <label for="estado" class="form-label">Estado</label>
-                            <select class="form-select" id="estado" required>
-                                <option value="0">Escolha um estado...</option>
+                            <label for="estado">Estado</label>
+                            <select class="form-control" name="estado" id="estado">
+                                <option value="" placeholder>Escolha um estado...</option>
                             </select>
                             <div class="invalid-feedback">
                                 Escolha um estado válido.
@@ -80,9 +80,9 @@
                         </div>
 
                         <div class="col-md-4">
-                            <label for="municipio" class="form-label">Município</label>
-                            <select class="form-select" id="municipio" required disabled>
-                                <option value="0">Escolha um município...</option>
+                            <label for="municipio">Município</label>
+                            <select class="form-control" name="municipio" id="municipio">
+                                <option value="" placeholder>Escolha um município...</option>
                             </select>
                             <div class="invalid-feedback">
                                 Escolha um município válido.
@@ -90,9 +90,9 @@
                         </div>
 
                         <div class="col-md-5">
-                            <label for="unidade" class="form-label">Unidade</label>
-                            <select class="form-select" id="unidade" required disabled>
-                                <option value="0">Escolha uma unidade...</option>
+                            <label for="unidade">Unidade</label>
+                            <select class="form-control" name="unidade" id="unidade">
+                                <option value="" placeholder>Escolha uma unidade...</option>
                             </select>
                             <div class="invalid-feedback">
                                 Escolha uma unidade válida.
@@ -104,7 +104,7 @@
 
                 <div class="row g-3 ">
                     <div class="col-md-12">
-                        <button class="w-100 btn btn-primary btn-lg" type="submit">Pesquisar</button>
+                        <button id="submit" class="w-100 btn btn-primary btn-lg" type="submit">Pesquisar</button>
                     </div>
                 </div>
 
@@ -123,38 +123,6 @@
                     Nenhum registro de vacinação para esta unidade no dia de hoje.
                 </div>
             </div>
-
-
-            <div class="row">
-                <div class="col-md-12 col-lg-12">
-                    <div class="row g-3">
-                        <div class="col-md-3">
-                            <label for="choices-single-remote-fetch">Estado</label>
-                            <select class="form-control" name="choices-single-remote-fetch"
-                                id="choices-single-remote-fetch">
-                                <option value="" placeholder>Escolha um estado...</option>
-                            </select>
-                        </div>
-
-                        <div class="col-md-4">
-                            <label for="choices-single-remote-fetch">Município</label>
-                            <select class="form-control" name="choices-single-remote-fetch"
-                                id="choices-single-remote-fetch2">
-                                <option value="" placeholder>Escolha um município...</option>
-                            </select>
-                        </div>
-
-                        <div class="col-md-5">
-                            <label for="choices-single-remote-fetch">Unidade</label>
-                            <select class="form-control" name="choices-single-remote-fetch"
-                                id="choices-single-remote-fetch3">
-                                <option value="" placeholder>Escolha uma unidade...</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
 
         </main>
 

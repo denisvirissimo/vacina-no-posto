@@ -1,23 +1,23 @@
 var listUF = [];
 var listMunicipio = [];
 var listUnidade = [];
-var singleXhrRemove;
-var singleXhrRemove2;
-var singleXhrRemove3;
+var ddlEstado;
+var ddlMunicipio;
+var ddlUnidade;
 
 const fetchData = async () => {
   var url = 'http://localhost:9000/search';
   // var url = '/.netlify/functions/search';
   const response = await fetch(url, {
     method: 'POST',
-    mode: 'cors', // no-cors, *cors, same-origin
+    mode: 'cors',
     cache: 'no-cache',
     headers: {
       'Content-Type': 'application/json'
     },
     redirect: 'follow',
     referrerPolicy: 'no-referrer',
-    body: JSON.stringify({ 'codigoUBS': singleXhrRemove3.getValue(true) })
+    body: JSON.stringify({ 'codigoUBS': ddlUnidade.getValue(true) })
   });
 
   return response.json();
@@ -35,27 +35,7 @@ const initJson = async () => {
 
     fetch('/data/uf.json')
       .then(response => response.json())
-      .then(data => {
-        listUF = data
-
-        let dropdown = document.getElementById('estado');
-        dropdown.length = 0;
-
-        let defaultOption = document.createElement('option');
-        defaultOption.text = 'Escolha um estado...';
-        defaultOption.value = 0;
-
-        dropdown.add(defaultOption);
-        dropdown.selectedIndex = 0;
-        let option;
-
-        for (let i = 0; i < listUF.ufs.length; i++) {
-          option = document.createElement('option');
-          option.text = listUF.ufs[i].Nome;
-          option.value = listUF.ufs[i].Codigo;
-          dropdown.add(option);
-        }
-      }),
+      .then(data => listUF = data)
   ]);
 }
 
@@ -108,34 +88,23 @@ const exibirAplicacoes = (listVacinas) => {
   });
 }
 
-const limparDropDown = (dropdown, unidade) => {
+const changeDropdown = (dropdown, choices, value, label) => {
+  reinicializarDropdown(dropdown);
 
-  dropdown.length = 0;
+  dropdown.setChoices(choices, value, label, false);
 
-  defaultOption = document.createElement('option');
-  defaultOption.text = !unidade ? 'Escolha uma unidade...' : 'Escolha um município...';
-  defaultOption.value = 0;
-
-  dropdown.add(defaultOption);
-  dropdown.selectedIndex = 0;
-
-
-  if (unidade) {
-    dropdown = document.getElementById('unidade');
-    dropdown.length = 0;
-
-    let defaultOption = document.createElement('option');
-    defaultOption.text = 'Escolha uma unidade...';
-    defaultOption.value = 0;
-
-    dropdown.add(defaultOption);
-    dropdown.selectedIndex = 0;
-
-    dropdown.disabled = true;
-  }
+  dropdown.enable();
+  dropdown.showDropdown(false);
 }
 
-document.addEventListener('click', function (event) {
+const reinicializarDropdown = (dropdown) => {
+  var newOptions = [];
+  newOptions.push(dropdown.config.choices.find(choice => choice.placeholder));
+  dropdown.setChoices(newOptions, 'value', 'label', true)
+    .setChoiceByValue('');
+}
+
+document.querySelector('#submit').addEventListener('click', function (event) {
 
   if (!event.target.matches('.btn')) return;
   event.preventDefault();
@@ -161,52 +130,10 @@ document.addEventListener('click', function (event) {
 
 }, false);
 
-document.querySelector('#estado').addEventListener('change', (event) => {
-
-  let dropdown = document.getElementById('municipio');
-  limparDropDown(dropdown, true);
-
-  let option;
-
-  const municipiosFiltrados = listMunicipio.municipios.filter(function (a) {
-    return a.CodigoUF === Number(event.target.value);
-  });
-
-  for (let i = 0; i < municipiosFiltrados.length; i++) {
-    option = document.createElement('option');
-    option.text = municipiosFiltrados[i].Nome;
-    option.value = municipiosFiltrados[i].Codigo;
-    dropdown.add(option);
-  }
-
-  dropdown.disabled = Number(event.target.value) === 0 ? true : false;
-});
-
-document.querySelector('#municipio').addEventListener('change', (event) => {
-
-  let dropdown = document.getElementById('unidade');
-  limparDropDown(dropdown, false);
-
-  let option;
-
-  const unidadesFiltradas = listUnidade.unidades.filter(function (a) {
-    return a.CodigoMunicipio === Number(event.target.value);
-  });
-
-  for (let i = 0; i < unidadesFiltradas.length; i++) {
-    option = document.createElement('option');
-    option.text = unidadesFiltradas[i].Nome;
-    option.value = unidadesFiltradas[i].CodigoCNES;
-    dropdown.add(option);
-  }
-
-  dropdown.disabled = Number(event.target.value) === 0 ? true : false;
-});
-
 document.addEventListener('DOMContentLoaded', function () {
   initJson();
 
-  singleXhrRemove = new Choices('#choices-single-remote-fetch', {
+  ddlEstado = new Choices('#estado', {
     placeholder: true,
     searchPlaceholderValue: "Pesquisar estado",
     searchResultLimit: 2,
@@ -216,7 +143,7 @@ document.addEventListener('DOMContentLoaded', function () {
     itemSelectText: 'Selecionar',
   });
 
-  singleXhrRemove2 = new Choices('#choices-single-remote-fetch2', {
+  ddlMunicipio = new Choices('#municipio', {
     placeholder: true,
     searchPlaceholderValue: "Pesquisar município",
     searchResultLimit: 3,
@@ -226,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function () {
     itemSelectText: 'Selecionar',
   });
 
-  singleXhrRemove3 = new Choices('#choices-single-remote-fetch3', {
+  ddlUnidade = new Choices('#unidade', {
     placeholder: true,
     searchPlaceholderValue: "Pesquisar unidade",
     searchResultLimit: 5,
@@ -236,10 +163,10 @@ document.addEventListener('DOMContentLoaded', function () {
     itemSelectText: 'Selecionar',
   });
 
-  singleXhrRemove2.disable();
-  singleXhrRemove3.disable();
+  ddlMunicipio.disable();
+  ddlUnidade.disable();
 
-  singleXhrRemove.setChoices(function () {
+  ddlEstado.setChoices(function () {
     return fetch(
       '/data/uf.json'
     )
@@ -247,58 +174,29 @@ document.addEventListener('DOMContentLoaded', function () {
         return res.json();
       })
       .then(function (data) {
-        return data.ufs.map(function (uf) {
-          return { label: uf.Nome, value: uf.Codigo };
-        });
+        return data.ufs
       });
-  });
+  }, 'Codigo', 'Nome', false);
 
-  singleXhrRemove.passedElement.element.addEventListener('change', function (e) {
+  ddlEstado.passedElement.element.addEventListener('change', function (e) {
 
     const municipiosFiltrados = listMunicipio.municipios.filter(function (a) {
       return a.CodigoUF === Number(e.detail.value);
     });
 
-    var newOptions = [];
-    newOptions.push(singleXhrRemove2.config.choices.find(choice => choice.placeholder));
-    singleXhrRemove2.setChoices(newOptions, 'value', 'label', true)
-      .setChoiceByValue('');
+    changeDropdown(ddlMunicipio, municipiosFiltrados, 'Codigo', 'Nome');
 
-    singleXhrRemove2.setChoices(function () {
-      return municipiosFiltrados.map(function (municipio) {
-        return { label: municipio.Nome, value: municipio.Codigo };
-      });
-    }, 'value', 'label', false);
+    reinicializarDropdown(ddlUnidade);
 
-    singleXhrRemove2.enable();
-    singleXhrRemove2.showDropdown(false);
-
-    var newOptions = [];
-    newOptions.push(singleXhrRemove3.config.choices.find(choice => choice.placeholder));
-    singleXhrRemove3.setChoices(newOptions, 'value', 'label', true)
-      .setChoiceByValue('');
-
-    singleXhrRemove3.disable();
+    ddlUnidade.disable();
   });
 
-  singleXhrRemove2.passedElement.element.addEventListener('change', function (e) {
+  ddlMunicipio.passedElement.element.addEventListener('change', function (e) {
 
     const unidadesFiltradas = listUnidade.unidades.filter(function (a) {
       return a.CodigoMunicipio === Number(e.target.value);
     });
 
-    var newOptions = [];
-    newOptions.push(singleXhrRemove3.config.choices.find(choice => choice.placeholder));
-    singleXhrRemove3.setChoices(newOptions, 'value', 'label', true)
-      .setChoiceByValue('');
-
-    singleXhrRemove3.setChoices(function () {
-      return unidadesFiltradas.map(function (municipio) {
-        return { label: municipio.Nome, value: municipio.CodigoCNES };
-      });
-    }, 'value', 'label', false);
-
-    singleXhrRemove3.enable();
-    singleXhrRemove3.showDropdown(false);
+    changeDropdown(ddlUnidade, unidadesFiltradas, 'CodigoCNES', 'Nome');
   });
 });
