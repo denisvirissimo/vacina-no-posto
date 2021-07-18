@@ -23,5 +23,8 @@
     "choices.js": "^9.0.1",
     "dotenv": "^10.0.0",
     "netlify-lambda": "^2.0.11"
+  },
+  "devDependencies": {
+    "gulp": "^4.0.2"
   }
 }
