@@ -109,6 +109,8 @@ document.querySelector('#submit').addEventListener('click', function (event) {
   if (!event.target.matches('.btn')) return;
   event.preventDefault();
 
+  document.getElementById('error').classList.add('d-none');
+
   fetchData()
     .then(data => {
 
@@ -126,7 +128,9 @@ document.querySelector('#submit').addEventListener('click', function (event) {
 
       document.querySelector('#vacinas').scrollIntoView();
     })
-    .catch(err => console.log(err));
+    .catch(function () {
+      document.getElementById('error').classList.remove('d-none');
+    });
 
 }, false);
 
