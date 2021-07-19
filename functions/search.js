@@ -47,7 +47,7 @@ exports.handler = function(event, context, callback) {
             },
             fields : [
                 "@timestamp",
-                "vacina_fabricante_nome" 
+                "vacina_nome" 
             ],
             _source: false,
         },

@@ -42,7 +42,7 @@ const initJson = async () => {
 
 const agruparVacinas = (data) => {
     var vacinasAplicadas = data.hits.hits.reduce(function (r, row) {
-        r[dicionarioVacinas[row.fields.vacina_fabricante_nome]] = ++r[dicionarioVacinas[row.fields.vacina_fabricante_nome]] || 1;
+        r[dicionarioVacinas[row.fields.vacina_nome]] = ++r[dicionarioVacinas[row.fields.vacina_nome]] || 1;
         return r;
     }, {});
 

@@ -1,48 +1,28 @@
 {
     "vacinas": [
         {
-            "chave": "ASTRAZENECA",
+            "chave": "Vacina Covid-19 - Covishield",
             "valor": "AstraZeneca"
         },
         {
-            "chave": "ASTRAZENECA/OXFORD",
+            "chave": "Covid-19-AstraZeneca",
             "valor": "AstraZeneca"
         },
         {
-            "chave": "BioNTech/Fosun Pharma/Pfizer",
-            "valor": "Pfizer"
-        },
-        {
-            "chave": "FUNDACAO BUTANTAN",
+            "chave": "Pendente Identificação",
             "valor": "Coronavac"
         },
         {
-            "chave": "FUNDACAO OSWALDO CRUZ",
-            "valor": "AstraZeneca"
+            "chave": "Covid-19-Coronavac-Sinovac/Butantan",
+            "valor": "Coronavac"
         },
         {
-            "chave": "JANSSEN",
+            "chave": "Vacina covid-19 - Ad26.COV2.S - Janssen-Cilag",
             "valor": "Janssen"
         },
         {
-            "chave": "MINISTERIO DA SAUDE",
+            "chave": "Vacina covid-19 - BNT162b2 - BioNTech/Fosun Pharma/Pfizer",
             "valor": "Pfizer"
-        },
-        {
-            "chave": "PFIZER",
-            "valor": "Pfizer"
-        },
-        {
-            "chave": "PFIZER/BIONTECH",
-            "valor": "Pfizer"
-        },
-        {
-            "chave": "SINOVAC",
-            "valor": "Coronavac"
-        },
-        {
-            "chave": "SINOVAC/BUTANTAN",
-            "valor": "Coronavac"
         }
     ]
 }
