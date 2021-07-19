@@ -1,0 +1,48 @@
+{
+    "vacinas": [
+        {
+            "chave": "ASTRAZENECA",
+            "valor": "AstraZeneca"
+        },
+        {
+            "chave": "ASTRAZENECA/OXFORD",
+            "valor": "AstraZeneca"
+        },
+        {
+            "chave": "BioNTech/Fosun Pharma/Pfizer",
+            "valor": "Pfizer"
+        },
+        {
+            "chave": "FUNDACAO BUTANTAN",
+            "valor": "Coronavac"
+        },
+        {
+            "chave": "FUNDACAO OSWALDO CRUZ",
+            "valor": "AstraZeneca"
+        },
+        {
+            "chave": "JANSSEN",
+            "valor": "Janssen"
+        },
+        {
+            "chave": "MINISTERIO DA SAUDE",
+            "valor": "Pfizer"
+        },
+        {
+            "chave": "PFIZER",
+            "valor": "Pfizer"
+        },
+        {
+            "chave": "PFIZER/BIONTECH",
+            "valor": "Pfizer"
+        },
+        {
+            "chave": "SINOVAC",
+            "valor": "Coronavac"
+        },
+        {
+            "chave": "SINOVAC/BUTANTAN",
+            "valor": "Coronavac"
+        }
+    ]
+}

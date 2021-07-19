@@ -1,6 +1,7 @@
 var listUF = [];
 var listMunicipio = [];
 var listUnidade = [];
+var dicionarioVacinas = {};
 var ddlEstado;
 var ddlMunicipio;
 var ddlUnidade;
@@ -33,16 +34,15 @@ const initJson = async () => {
             .then(response => response.json())
             .then(data => listMunicipio = data),
 
-        fetch('/data/uf.json')
+        fetch('/data/vacina.json')
             .then(response => response.json())
-            .then(data => listUF = data)
+            .then(data => data.vacinas.forEach(v => dicionarioVacinas[v.chave] = v.valor))
     ]);
 }
 
 const agruparVacinas = (data) => {
     var vacinasAplicadas = data.hits.hits.reduce(function (r, row) {
-        row.fields.vacina_fabricante_nome[0] = row.fields.vacina_fabricante_nome[0].split('/')[0];
-        r[row.fields.vacina_fabricante_nome] = ++r[row.fields.vacina_fabricante_nome] || 1;
+        r[dicionarioVacinas[row.fields.vacina_fabricante_nome]] = ++r[dicionarioVacinas[row.fields.vacina_fabricante_nome]] || 1;
         return r;
     }, {});
 
@@ -73,7 +73,7 @@ const exibirAplicacoes = (listVacinas) => {
         const divCardBody = document.createElement('div');
         divCardBody.className = 'card-body';
         const divCardBodyImg = document.createElement('img');
-        divCardBodyImg.src = 'img/'.concat(vacina.key.split('/')[0].toLowerCase().concat('.png'));
+        divCardBodyImg.src = 'img/'.concat(vacina.key.concat('.png'));
         divCardBodyImg.width = '80';
         divCardBody.appendChild(divCardBodyImg);
         divCard.appendChild(divCardBody);
@@ -131,8 +131,7 @@ document.querySelector('#submit').addEventListener('click', function (event) {
             else {
                 document.getElementById('noResult').classList.add('d-none');
 
-                var vacinasAgrupadas = agruparVacinas(data);
-                exibirAplicacoes(vacinasAgrupadas);
+                exibirAplicacoes(agruparVacinas(data));
             }
 
             document.querySelector('#vacinas').scrollIntoView();
