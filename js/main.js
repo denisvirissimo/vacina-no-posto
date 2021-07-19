@@ -7,8 +7,8 @@ var ddlMunicipio;
 var ddlUnidade;
 
 const fetchData = async () => {
-    var url = 'http://localhost:9000/search';
-    // var url = '/.netlify/functions/search';
+    // var url = 'http://localhost:9000/search';
+    var url = '/.netlify/functions/search';
     const response = await fetch(url, {
         method: 'POST',
         mode: 'cors',

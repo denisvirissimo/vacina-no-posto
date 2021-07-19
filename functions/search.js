@@ -25,7 +25,7 @@ exports.handler = function(event, context, callback) {
         const { codigoUBS } = JSON.parse(event.body);
 
         axios.post(API_URL, {
-            size: 50,
+            size: 5000,
             sort : [
                 { "@timestamp" : "desc" }
             ],
