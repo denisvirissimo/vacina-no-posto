@@ -65,10 +65,9 @@
                 <p class="lead"></p>
             </div>
 
-            <div class="row g-12 center">
+            <div class="row center">
                 <div class="col-md-12 col-lg-12">
-                    <div class="row g-3">
-
+                    <div class="row">
                         <div class="col-md-3">
                             <label for="estado">Estado</label>
                             <select class="form-control" name="estado" id="estado">
@@ -99,22 +98,31 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
-
-                <div class="row g-3 ">
-                    <div class="col-md-12">
-                        <button id="submit" class="w-100 btn btn-primary btn-lg" type="submit"><span
-                                class="" role="status" aria-hidden="true"></span>
-                             Pesquisar</button>
-                    </div>
-                </div>
-
-                <hr class="my-4">
             </div>
 
-            <div id="vacinas" class="">
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="validation" class="alert alert-danger d-none" role="alert">
+                        Selecione a unidade!
+                    </div>
+                </div>
+            </div>
 
+            <div class="row">
+                <div class="col-md-12">
+                    <button id="submit" class="w-100 btn btn-primary btn-lg" type="submit"><span class="" role="status"
+                            aria-hidden="true"></span>
+                        Pesquisar</button>
+                </div>
+            </div>
+
+            <hr class="my-4">
+
+            <div class="row">
+                <div id="vacinas" class="">
+
+                </div>
             </div>
 
             <div id="noResult" class="alert alert-warning d-flex align-items-center d-none" role="alert">

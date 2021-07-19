@@ -109,6 +109,11 @@ document.querySelector('#submit').addEventListener('click', function (event) {
     if (!event.target.matches('.btn')) return;
     event.preventDefault();
 
+    if (ddlUnidade.getValue(true) === '') {
+        document.getElementById('validation').classList.remove('d-none');
+        return;
+    }
+
     document.getElementById('error').classList.add('d-none');
     let botao = document.getElementById('submit');
     botao.disabled = true;
@@ -211,5 +216,9 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         changeDropdown(ddlUnidade, unidadesFiltradas, 'CodigoCNES', 'Nome');
+    });
+
+    ddlUnidade.passedElement.element.addEventListener('change', function (e) {
+        document.getElementById('validation').classList.add('d-none');
     });
 });
