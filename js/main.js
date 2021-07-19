@@ -217,7 +217,19 @@ document.addEventListener('DOMContentLoaded', function () {
         changeDropdown(ddlUnidade, unidadesFiltradas, 'CodigoCNES', 'Nome');
     });
 
-    ddlUnidade.passedElement.element.addEventListener('change', function (e) {
+    ddlUnidade.passedElement.element.addEventListener('change', function () {
         document.getElementById('validation').classList.add('d-none');
     });
+
+    ddlUnidade.passedElement.element.addEventListener('showDropdown', function () {
+        var select = this;
+        var id = this.value;
+
+        var option = select.parentElement.parentElement.querySelector('.choices__list--dropdown [data-value="' + id + '"]');
+
+        if (option) {
+            option.classList.add('is-active');
+            option.parentElement.scrollTop = option.offsetTop - option.parentElement.offsetTop;
+        }
+    }, false);
 });
