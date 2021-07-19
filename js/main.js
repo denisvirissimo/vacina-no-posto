@@ -86,6 +86,10 @@ const exibirAplicacoes = (listVacinas) => {
         divCol.appendChild(divCard);
         vacinaList.appendChild(divCol);
     });
+
+    const labelData = document.getElementById('dataConsulta');
+    labelData.childNodes[1].textContent = 'Dados consultados no DataSUS em '.concat(new Date().toLocaleString());
+    labelData.classList.remove('d-none');
 }
 
 const changeDropdown = (dropdown, choices, value, label) => {
@@ -125,6 +129,7 @@ document.querySelector('#submit').addEventListener('click', function (event) {
 
             if (data.hits.total.value == 0) {
                 document.getElementById('noResult').classList.remove('d-none');
+                document.getElementById('dataConsulta').classList.add('d-none');
                 var vacinaList = document.querySelector('#vacinas');
                 vacinaList.querySelectorAll('*').forEach(n => n.remove());
             }
